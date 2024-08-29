@@ -14,7 +14,7 @@ export const getWaterConsumptionByMonth = async (req, res, next) => {
     year,
   );
 
-  if (result === null || result.userId.toString() !== req.user._id.toString()) {
+  if (result === null) {
     return next(createHttpError(404, 'Records not found'));
   }
 
