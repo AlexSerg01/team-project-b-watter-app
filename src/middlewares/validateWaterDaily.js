@@ -11,5 +11,9 @@ export const validateWaterDaily = (req, res, next) => {
         const error = createHttpError(400, 'Invalid data');
         return next(error)
     };
+    if(parsedNumber > 15000) {
+        const error = createHttpError(400, 'Invalid data. Daily water intake should be 15000 ml max');
+        return next(error)
+    }
     next()
 };
