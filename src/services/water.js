@@ -1,10 +1,10 @@
-import WaterConsumption from '../bd/models/water.js';
+import WaterConsumptionCollection from '../bd/models/water.js';
 
-const getWaterConsumption = async (userId, month, year) => {
+export const getWaterConsumption = async (userId, month, year) => {
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
 
-  const getwaterData = await WaterConsumption.find({
+  const getwaterData = await WaterConsumptionCollection.find({
     userId,
     date: { $gte: startDate, $lte: endDate },
   });
@@ -21,11 +21,11 @@ const getWaterConsumption = async (userId, month, year) => {
     if (!dailyData[dayKey]) {
       dailyData[dayKey] = { totalAmount: 0, entries: 0 };
     }
-    dailyData[dayKey].totalAmount += record.amount * 1000;
+    dailyData[dayKey].totalAmount += record.amount;
     dailyData[dayKey].entries += 1;
   });
 
-  const dailyNorm = 1800;
+  const dailyNorm = 1800; //CHANGE WHEN WATER RATE ENDPOINT WILL BE READY
 
   return Object.keys(dailyData).map((day) => ({
     date: day,
@@ -37,6 +37,8 @@ const getWaterConsumption = async (userId, month, year) => {
   }));
 };
 
-export default {
-  getWaterConsumption,
+// -------------------------------------------------------
+
+export const addWaterConsumption = async (record) => {
+  return WaterConsumptionCollection.create(record);
 };
