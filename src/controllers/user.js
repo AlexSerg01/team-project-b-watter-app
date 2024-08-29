@@ -1,5 +1,6 @@
 import { getUser, addUserPhoto, patchUser, patchUserDailyWaterIntake } from "../services/user.js";
 import {saveFileToCloudinary} from '../utils/saveFileToCloudinary.js'
+import { deleteFileFromCloudinary } from "../utils/deleteFileFromCloudinary.js";
 
 export const getUserInfoController = async (req, res) => {
     const user = await getUser(req.user._id)
@@ -13,6 +14,11 @@ export const getUserInfoController = async (req, res) => {
 export const addUserPhotoController = async (req, res) => {
     const contactId = req.user._id;
     const photo = req.file;
+    const user = await getUser(contactId);
+    const oldPhoto = user[0].photo;
+    if (oldPhoto) {
+        await deleteFileFromCloudinary(oldPhoto);
+    }
     const photoURL = await saveFileToCloudinary(photo);
     const userPhoto = await addUserPhoto(contactId, photoURL);
     res.status(200).json({
