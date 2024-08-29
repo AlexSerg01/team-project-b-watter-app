@@ -5,6 +5,10 @@ const usersSchema = new Schema({
         type: String,
         required: false,
     },
+    dailyWaterIntake: {
+        type: Number,
+        required: false,
+    },
     email: {
         type: String,
         match: [/\S+@\S+\.\S+/, 'Please enter a valid email'],
