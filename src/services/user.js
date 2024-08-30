@@ -1,4 +1,5 @@
 import { usersCollection } from "../bd/models/user.js";
+import WaterConsumption from "../bd/models/water.js"
 
 
 export const getUser = async (id) => {
@@ -30,4 +31,25 @@ export const patchUserDailyWaterIntake = async (id, data, options = {}) => {
     });
 
     return updatedUser.dailyWaterIntake
+};
+
+
+export const getUserDailyWaterConsumption = async (userId) => {
+  const user = await getUser(userId);
+  const dailyNorm = user[0].dailyWaterIntake || 2000;
+
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+  const endOfDay = new Date();
+  endOfDay.setHours(23, 59, 59, 999);
+
+  const dailyRecords = await WaterConsumption.find({
+    userId,
+    date: { $gte: startOfDay, $lte: endOfDay },
+  });
+
+  const totalConsumed = dailyRecords.reduce((total, record) => total + record.amount, 0);
+  const percentageOfNorm = (totalConsumed / dailyNorm) * 100;
+
+  return { percentageOfNorm, dailyRecords };
 };
