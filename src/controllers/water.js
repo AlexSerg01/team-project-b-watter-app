@@ -44,3 +44,18 @@ export const addWaterConsumption = async (req, res) => {
 };
 
 // -------------------------------------------------------
+
+export const getDailyWaterConsumptionController = async (req, res) => {
+  const userId = req.user._id;
+
+        const { percentageOfNorm, dailyRecords } = await WaterService.getUserDailyWaterConsumption(userId);
+
+        res.status(200).json({
+            status: 200,
+            message: 'Successfully retrieved daily water consumption data',
+            data: {
+                percentageOfNorm,
+                dailyRecords
+            }
+        });
+};

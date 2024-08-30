@@ -1,4 +1,4 @@
-import { getUser, addUserPhoto, patchUser, patchUserDailyWaterIntake, getUserDailyWaterConsumption } from "../services/user.js";
+import { getUser, addUserPhoto, patchUser, patchUserDailyWaterIntake } from "../services/user.js";
 import {saveFileToCloudinary} from '../utils/saveFileToCloudinary.js'
 import { deleteFileFromCloudinary } from "../utils/deleteFileFromCloudinary.js";
 
@@ -50,16 +50,3 @@ export const patchDailyWaterIntakeController = async (req, res) => {
     });
 };
 
-export const getDailyWaterConsumptionController = async (req, res) => {
-        const contactId = req.user._id;
-        const { percentageOfNorm, dailyRecords } = await getUserDailyWaterConsumption(contactId);
-
-        res.status(200).json({
-            status: 200,
-            message: 'Successfully retrieved daily water consumption data',
-            data: {
-                percentageOfNorm,
-                dailyRecords
-            }
-        });
-};

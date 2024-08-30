@@ -6,7 +6,7 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { addAmountOfConsumedWaterSchema } from '../validation/water.js';
 import {
   getWaterConsumptionByMonth,
-  addWaterConsumption,
+  addWaterConsumption, getDailyWaterConsumptionController
 } from '../controllers/water.js';
 
 const router = Router();
@@ -23,5 +23,7 @@ router.post(
   validateBody(addAmountOfConsumedWaterSchema),
   ctrlWrapper(addWaterConsumption),
 );
+
+router.get('/water-consumption', authenticate, ctrlWrapper(getDailyWaterConsumptionController))
 
 export default router;
