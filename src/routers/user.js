@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import ctrlWrapper from "../utils/ctrlWrapper.js";
 import {authenticate} from '../middlewares/authenticate.js'
-import { getUserInfoController, addUserPhotoController, patchUserController, patchDailyWaterIntakeController, getDailyWaterConsumptionController } from "../controllers/user.js";
+import { getUserInfoController, addUserPhotoController, patchUserController, patchDailyWaterIntakeController } from "../controllers/user.js";
 import { userUpdateValidationSchema } from "../validation/user.js";
 import {upload} from '../middlewares/multer.js'
 import { validateBody } from "../middlewares/validateBody.js";
@@ -16,6 +16,5 @@ router.get('/info', ctrlWrapper(getUserInfoController));
 router.patch('/userPhoto', upload.single('userPhoto'), ctrlWrapper(addUserPhotoController));
 router.patch('/updateInfo', validateBody(userUpdateValidationSchema), ctrlWrapper(patchUserController))
 router.patch('/newDailyWaterIntake', validateWaterDaily, ctrlWrapper(patchDailyWaterIntakeController))
-router.get('/water-consumption',ctrlWrapper(getDailyWaterConsumptionController))
 
 export default router;
