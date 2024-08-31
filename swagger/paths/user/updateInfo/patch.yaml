@@ -1,0 +1,49 @@
+
+tags:
+  - user
+summary: Update info about a user
+operationId: patchUserInfo
+description: 'Update an info about a user'
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            description: "User's name"
+            type: string
+            example: 'John Doe'
+          password:
+            description: "User's password"
+            type: string
+            example: 'password'
+          email:
+            description: "Users's email"
+            type: string
+            example: test@mail.com
+responses:
+  '200':
+    description: User has been updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: User has been updated successfully
+            data:
+              type: object
+              $ref: ..\..\..\components\schemas\userGetAndPatchResponse.yaml
+  '401':
+    $ref: '../../../components/responses/401.yaml'

@@ -1,0 +1,8 @@
+type: object
+required:
+  - dailyWaterIntake
+properties:
+  dailyWaterIntake:
+    description: "User's water norm"
+    type: number
+    example: 14000

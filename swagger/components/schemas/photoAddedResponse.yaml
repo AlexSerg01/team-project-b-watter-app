@@ -1,0 +1,8 @@
+type: object
+required:
+  - photoUrl
+properties:
+  photoUrl:
+    description: "User's photo"
+    type: string
+    example: https://cloudinary.com/images/3235235425-23423523

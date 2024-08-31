@@ -1,0 +1,47 @@
+
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Water app
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description:
+    This is a documentation of water app
+tags:
+  - name: auth
+    description: Endpoints related to user authentication
+  - name: user
+    description: Endpoints related to information about user
+  - name: water
+    description: Endpoints related to information about water consumption
+servers:
+  - url: http://localhost:3000
+  - url: https://example.com/api/v1
+paths:
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register/post.yaml
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login/post.yaml
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout/post.yaml
+  /user/info:
+    get:
+      $ref: ../swagger/paths/user/info/get.yaml
+  /user/userPhoto:
+    patch:
+      $ref: ../swagger/paths/user/userPhoto/patch.yaml
+  /user/updateInfo:
+    patch:
+      $ref: ../swagger/paths/user/updateInfo/patch.yaml
+  /user/newDailyWaterIntake:
+    patch:
+      $ref: ../swagger/paths/user/newDailyWaterIntake/patch.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

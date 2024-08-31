@@ -1,0 +1,25 @@
+type: object
+required:
+  - email
+  - _id
+  - createdAt
+  - updatedAt
+properties:
+  email:
+    description: "User's email"
+    type: string
+    example: test@hmail.com
+  _id:
+    description: "User's id"
+    type: string
+    example: 66b750163beb29c60d215f8c
+  createdAt:
+    description: "When a user has been created at"
+    type: string
+    format: date-time
+    example: 2024-08-10T11:33:42.181Z
+  updatedAt:
+    description: "When a user has been updated at"
+    type: string
+    format: date-time
+    example: 2024-08-10T11:33:42.181Z
