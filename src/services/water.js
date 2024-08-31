@@ -19,6 +19,13 @@ export const updateWaterConsumption = (id, userId, payload) => {
 
 // -------------------------------------------------------
 
+export const deleteWaterConsumption = (id, userId) => {
+  return WaterConsumptionCollection.findOneAndDelete({
+    _id: id,
+    userId,
+  });
+};
+
 // -------------------------------------------------------
 
 export const getUserDailyWaterConsumption = async (userId) => {
