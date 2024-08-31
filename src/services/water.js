@@ -1,45 +1,29 @@
 import WaterConsumptionCollection from '../bd/models/water.js';
-import {getUser} from "./user.js"
+import { getUser } from './user.js';
 
-export const getWaterConsumption = async (userId, dailyNorm, month, year) => {
-  const startDate = new Date(year, month - 1, 1);
-  const endDate = new Date(year, month, 0);
-
-  const getWaterData = await WaterConsumptionCollection.find({
-    userId,
-    date: { $gte: startDate, $lte: endDate },
-  });
-
-  const dailyData = {};
-
-  getWaterData.forEach((record) => {
-    const day = record.date.getDate();
-    const monthName = new Intl.DateTimeFormat('en-US', {
-      month: 'long',
-    }).format(record.date);
-    const dayKey = `${day}, ${monthName}`;
-
-    if (!dailyData[dayKey]) {
-      dailyData[dayKey] = { totalAmount: 0, entries: 0 };
-    }
-    dailyData[dayKey].totalAmount += record.amount;
-    dailyData[dayKey].entries += 1;
-  });
-
-  return Object.keys(dailyData).map((day) => ({
-    date: day,
-    dailyNorm: `${dailyNorm} ml`,
-    percentageConsumed: `${Math.round(
-      (dailyData[day].totalAmount / dailyNorm) * 100,
-    )}%`,
-    entries: dailyData[day].entries,
-  }));
+export const addWaterConsumption = async (record) => {
+  return WaterConsumptionCollection.create(record);
 };
 
 // -------------------------------------------------------
 
-export const addWaterConsumption = async (record) => {
-  return WaterConsumptionCollection.create(record);
+export const updateWaterConsumption = (id, userId, payload) => {
+  return WaterConsumptionCollection.findOneAndUpdate(
+    { _id: id, userId },
+    payload,
+    {
+      new: true,
+    },
+  );
+};
+
+// -------------------------------------------------------
+
+export const deleteWaterConsumption = (id, userId) => {
+  return WaterConsumptionCollection.findOneAndDelete({
+    _id: id,
+    userId,
+  });
 };
 
 // -------------------------------------------------------
@@ -58,8 +42,65 @@ export const getUserDailyWaterConsumption = async (userId) => {
     date: { $gte: startOfDay, $lte: endOfDay },
   });
 
-  const totalConsumed = dailyRecords.reduce((total, record) => total + record.amount, 0);
+  const totalConsumed = dailyRecords.reduce(
+    (total, record) => total + record.amount,
+    0,
+  );
   const percentageOfNorm = (totalConsumed / dailyNorm) * 100;
 
   return { percentageOfNorm, dailyRecords };
+};
+
+// -------------------------------------------------------
+
+export const getWaterConsumptionByMonth = async (
+  userId,
+  dailyNorm,
+  month,
+  year,
+) => {
+  const startDate = new Date(year, month - 1, 1);
+  const endDate = new Date(year, month, 0);
+
+  const waterData = await WaterConsumptionCollection.find({
+    userId,
+    date: { $gte: startDate, $lte: endDate },
+  });
+
+  const dailyData = {};
+  for (let day = 1; day <= endDate.getDate(); day++) {
+    const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(
+      day,
+    ).padStart(2, '0')}`;
+    dailyData[dateKey] = { totalAmount: 0, entries: 0 };
+  }
+
+  waterData.forEach((record) => {
+    const date = new Date(record.date);
+    const dateKey = `${date.getFullYear()}-${String(
+      date.getMonth() + 1,
+    ).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+
+    if (dailyData[dateKey]) {
+      dailyData[dateKey].totalAmount += record.amount;
+      dailyData[dateKey].entries += 1;
+    }
+  });
+
+  const result = Object.keys(dailyData).map((dateKey) => {
+    const [year, month, day] = dateKey.split('-');
+    const date = new Date(year, month - 1, day);
+    const monthName = date.toLocaleString('default', { month: 'long' });
+
+    return {
+      date: `${String(day).padStart(2, '0')}, ${monthName}`,
+      dailyNorm: `${dailyNorm} ml`,
+      percentageConsumed: `${Math.round(
+        (dailyData[dateKey].totalAmount / dailyNorm) * 100,
+      )}%`,
+      entries: dailyData[dateKey].entries,
+    };
+  });
+
+  return result;
 };
