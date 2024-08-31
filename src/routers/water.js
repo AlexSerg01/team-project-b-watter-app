@@ -12,6 +12,7 @@ import {
   addWaterConsumption,
   updateWaterConsumption,
   getDailyWaterConsumptionController,
+  deleteWaterConsumption,
 } from '../controllers/water.js';
 
 const router = Router();
@@ -29,6 +30,8 @@ router.patch(
   validateBody(updateAmountOfConsumedWaterSchema),
   ctrlWrapper(updateWaterConsumption),
 );
+
+router.delete('/:id', ctrlWrapper(deleteWaterConsumption));
 
 router.get('/', ctrlWrapper(getDailyWaterConsumptionController));
 
