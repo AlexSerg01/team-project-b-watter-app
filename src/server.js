@@ -7,6 +7,7 @@ import router from './routers/index.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
 import cookieParser from 'cookie-parser';
+import {swaggerDocs} from './middlewares/swaggerDocs.js'
 
 
 const PORT = Number(env('PORT', 14000));
@@ -28,6 +29,8 @@ export function setupServer() {
     app.use(cookieParser());
 
     app.use(router);
+
+    app.use('/api-docs', swaggerDocs());
 
     app.use('*', notFoundHandler);
 

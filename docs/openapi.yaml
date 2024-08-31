@@ -25,9 +25,21 @@ paths:
   /auth/login:
     post:
       $ref: ../swagger/paths/auth/login/post.yaml
-  /auth/login:
+  /auth/logout:
     post:
       $ref: ../swagger/paths/auth/logout/post.yaml
+  /user/info:
+    get:
+      $ref: ../swagger/paths/user/info/get.yaml
+  /user/userPhoto:
+    patch:
+      $ref: ../swagger/paths/user/userPhoto/patch.yaml
+  /user/updateInfo:
+    patch:
+      $ref: ../swagger/paths/user/updateInfo/patch.yaml
+  /user/newDailyWaterIntake:
+    patch:
+      $ref: ../swagger/paths/user/newDailyWaterIntake/patch.yaml
 components:
   securitySchemes:
     bearerAuth:

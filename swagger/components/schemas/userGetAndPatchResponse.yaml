@@ -1,0 +1,37 @@
+type: object
+required:
+  - email
+  - _id
+  - createdAt
+  - updatedAt
+properties:
+  email:
+    description: "User's email"
+    type: string
+    example: test@hmail.com
+  _id:
+    description: "User's id"
+    type: string
+    example: 66b750163beb29c60d215f8c
+  photo:
+    description: "User's photo"
+    type: string
+    example: https://cloudinary.com/images/3235235425-23423523
+  dailyWaterIntake:
+    description: "Norm of water per day"
+    type: number
+    example: 14000
+  name:
+    description: "User's name"
+    type: string
+    example: Alex Lex
+  createdAt:
+    description: "When a user has been created at"
+    type: string
+    format: date-time
+    example: 2024-08-10T11:33:42.181Z
+  updatedAt:
+    description: "When a user has been updated at"
+    type: string
+    format: date-time
+    example: 2024-08-10T11:33:42.181Z

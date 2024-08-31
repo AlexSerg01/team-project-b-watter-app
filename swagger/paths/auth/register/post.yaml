@@ -23,6 +23,8 @@ requestBody:
             description: "password"
             type: string
             example: 'password'
+            minLength: 8
+            maxLength: 64
 responses:
   '201':
     description: Successfully registered a user!
@@ -43,7 +45,7 @@ responses:
               example: Successfully registered a user!
             data:
               type: object
-              $ref: ..\..\..\components\schemas\user.yaml
+              $ref: ..\..\..\components\schemas\userCreatedByRegistrationResponse.yaml
   '409':
     $ref: ..\..\..\components\responses\409.yaml
 

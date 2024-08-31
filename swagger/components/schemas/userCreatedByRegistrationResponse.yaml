@@ -16,8 +16,10 @@ properties:
   createdAt:
     description: "When a user has been created at"
     type: string
+    format: date-time
     example: 2024-08-10T11:33:42.181Z
   updatedAt:
     description: "When a user has been updated at"
     type: string
+    format: date-time
     example: 2024-08-10T11:33:42.181Z

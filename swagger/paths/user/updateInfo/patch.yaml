@@ -1,31 +1,32 @@
 
 tags:
-  - auth
-summary: Login user
-operationId: loginUser
-description: 'Login a user and create a session'
+  - user
+summary: Update info about a user
+operationId: patchUserInfo
+description: 'Update an info about a user'
 security:
-  - {}
+  - bearerAuth: []
 requestBody:
   content:
     application/json:
       schema:
         type: object
-        required:
-          - email
-          - password
         properties:
-          email:
-            description: "User's email"
+          name:
+            description: "User's name"
             type: string
-            example: 'test@mail.com'
+            example: 'John Doe'
           password:
             description: "User's password"
             type: string
             example: 'password'
+          email:
+            description: "Users's email"
+            type: string
+            example: test@mail.com
 responses:
   '200':
-    description: Successfully logged in an user!
+    description: User has been updated successfully
     content:
       application/json:
         schema:
@@ -37,14 +38,12 @@ responses:
           properties:
             status:
               type: integer
-              example: 200
+              example: 201
             message:
               type: string
-              example: Successfully logged in an user!
+              example: User has been updated successfully
             data:
               type: object
-              $ref: ..\..\..\components\schemas\loggedInObjResponse.yaml
-  '404':
-    $ref: ..\..\..\components\responses\404.yaml
+              $ref: ..\..\..\components\schemas\userGetAndPatchResponse.yaml
   '401':
-    $ref: ..\..\..\components\responses\401.yaml
+    $ref: '../../../components/responses/401.yaml'

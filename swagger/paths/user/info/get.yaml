@@ -1,0 +1,36 @@
+
+tags:
+  - user
+summary: Get information about the user
+operationId: getUserInfo
+description: 'Get information about user'
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Successfully found a user!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found a user!
+            data:
+              type: object
+              allOf:
+                - $ref: '../../../components/schemas/userGetAndPatchResponse.yaml'
+              required:
+                - email
+                - createdAt
+                - updatedAt
+  '401':
+    $ref: ..\..\..\components\responses\401.yaml

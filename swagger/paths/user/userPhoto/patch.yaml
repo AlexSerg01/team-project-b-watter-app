@@ -1,0 +1,41 @@
+
+tags:
+  - user
+summary: Add a photo to a user
+operationId: patchUserPhoto
+description: 'Add a photo to a user'
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          userPhoto:
+            description: "User's photo"
+            type: string
+            format: binary
+responses:
+  '200':
+    description: Photo has been added successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Photo has been added successfully
+            data:
+              type: object
+              $ref: ..\..\..\components\schemas\photoAddedResponse.yaml
+  '401':
+    $ref: '../../../components/responses/401.yaml'
