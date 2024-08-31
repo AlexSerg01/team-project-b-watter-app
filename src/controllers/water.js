@@ -33,8 +33,11 @@ export const updateWaterConsumption = async (req, res, next) => {
     waterConsumption,
   );
 
-  if (updatedRecord === null)
-    return next(createHttpError(404, 'Records not found'));
+  if (
+    updatedRecord === null ||
+    updatedRecord.userId.toString() !== req.user._id.toString()
+  )
+    return next(createHttpError(404, 'Record not found'));
 
   res.status(200).json({
     status: 200,
@@ -44,6 +47,18 @@ export const updateWaterConsumption = async (req, res, next) => {
 };
 
 // -------------------------------------------------------
+
+export const deleteWaterConsumption = async (req, res, next) => {
+  const { id } = req.params;
+
+  const result = await WaterService.deleteWaterConsumption(id, req.user._id);
+
+  if (result === null || result.userId.toString() !== req.user._id.toString()) {
+    return next(createHttpError(404, 'Record not found'));
+  }
+
+  res.status(204).end();
+};
 
 // -------------------------------------------------------
 
