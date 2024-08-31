@@ -1,0 +1,56 @@
+<!-- docs/index.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>API Reference | ReDoc</title>
+  <!-- needed for adaptive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!--
+    ReDoc uses font options from the parent element
+    So override default browser styles
+    -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  {{{redocHead}}}
+</head>
+
+<body>
+  {{{redocHTML}}}
+</body>
+
+</html>
+# docs/openapi.yaml
+
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Students app
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description:
+    This is a documentation of students app
+tags:
+  - name: Students
+    description: Operations about users.
+  - name: Auth
+    description: Auth operations.
+servers:
+  - url: http://localhost:3000
+  - url: https://example.com/api/v1
+paths:
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
