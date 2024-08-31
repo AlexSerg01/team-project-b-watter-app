@@ -4,7 +4,18 @@ import { getUser } from './user.js';
 export const addWaterConsumption = async (record) => {
   return WaterConsumptionCollection.create(record);
 };
+
 // -------------------------------------------------------
+
+export const updateWaterConsumption = (id, userId, payload) => {
+  return WaterConsumptionCollection.findOneAndUpdate(
+    { _id: id, userId },
+    payload,
+    {
+      new: true,
+    },
+  );
+};
 
 // -------------------------------------------------------
 
