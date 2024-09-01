@@ -12,6 +12,7 @@ parameters:
     schema:
       type: string
       example: 66bb2c46d348911e38a4e9d5
+      description: The ID of the water consumption record to update.
 requestBody:
   required: true
   content:
