@@ -29,7 +29,7 @@ export const patchUserDailyWaterIntake = async (id, data, options = {}) => {
         ...options,
     });
 
-    return updatedUser.dailyWaterIntake
+    return updatedUser.value.dailyWaterIntake
 };
 
 
