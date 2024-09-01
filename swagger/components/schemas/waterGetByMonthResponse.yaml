@@ -1,0 +1,25 @@
+type: array
+items:
+  type: object
+  required:
+    - date
+    - dailyNorm
+    - percentageConsumed
+    - entries
+  properties:
+    date:
+      type: string
+      example: 01, September
+      description: The date in `dd, MonthName` format.
+    dailyNorm:
+      type: string
+      example: 2,0 l
+      description: The daily water intake norm in liters.
+    percentageConsumed:
+      type: string
+      example: 64%
+      description: The percentage of the daily norm consumed.
+    entries:
+      type: number
+      example: 6
+      description: The number of water consumption entries.
