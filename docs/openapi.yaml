@@ -41,6 +41,9 @@ paths:
   /water:
     post:
       $ref: ../swagger/paths/water/post.yaml
+  /water/{id}:
+    patch:
+      $ref: ../swagger/paths/water/{id}/patch.yaml
 components:
   securitySchemes:
     bearerAuth:
