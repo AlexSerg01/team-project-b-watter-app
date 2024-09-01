@@ -5,5 +5,5 @@ export const addAmountOfConsumedWaterSchema = Joi.object({
 });
 
 export const updateAmountOfConsumedWaterSchema = Joi.object({
-  amount: Joi.number().integer().positive().max(5000),
+  amount: Joi.number().integer().positive().max(5000).required(),
 });
