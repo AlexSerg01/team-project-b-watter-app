@@ -14,7 +14,7 @@ tags:
   - name: water
     description: Endpoints related to information about water consumption
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:14000
   - url: https://example.com/api/v1
 paths:
   /auth/register:
