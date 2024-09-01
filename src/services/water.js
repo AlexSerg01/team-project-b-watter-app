@@ -59,8 +59,8 @@ export const getWaterConsumptionByMonth = async (
   month,
   year,
 ) => {
-  const startDate = new Date(year, month - 1, 1);
-  const endDate = new Date(year, month, 0);
+  const startDate = new Date(Date.UTC(year, month - 1, 1, 0, 0, 0, 0));
+  const endDate = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999));
 
   const waterData = await WaterConsumptionCollection.find({
     userId,
@@ -68,7 +68,7 @@ export const getWaterConsumptionByMonth = async (
   });
 
   const dailyData = {};
-  for (let day = 1; day <= endDate.getDate(); day++) {
+  for (let day = 1; day <= new Date(year, month, 0).getDate(); day++) {
     const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(
       day,
     ).padStart(2, '0')}`;
@@ -90,14 +90,16 @@ export const getWaterConsumptionByMonth = async (
   const result = Object.keys(dailyData).map((dateKey) => {
     const [year, month, day] = dateKey.split('-');
     const date = new Date(year, month - 1, day);
-    const monthName = date.toLocaleString('default', { month: 'long' });
+    const monthName = date.toLocaleString('en-US', { month: 'long' });
+
+    const totalAmount = dailyData[dateKey].totalAmount;
+    const percentageConsumed =
+      dailyNorm > 0 ? Math.round((totalAmount / dailyNorm) * 100) : 0;
 
     return {
       date: `${String(day).padStart(2, '0')}, ${monthName}`,
-      dailyNorm: `${dailyNorm} ml`,
-      percentageConsumed: `${Math.round(
-        (dailyData[dateKey].totalAmount / dailyNorm) * 100,
-      )}%`,
+      dailyNorm: `${(dailyNorm / 1000).toFixed(1)} l`,
+      percentageConsumed: `${percentageConsumed}%`,
       entries: dailyData[dateKey].entries,
     };
   });
