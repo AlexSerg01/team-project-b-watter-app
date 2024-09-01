@@ -1,0 +1,36 @@
+type: object
+required:
+  - _id
+  - userId
+  - date
+  - amount
+  - createdAt
+  - updatedAt
+properties:
+  _id:
+    description: Record's id"
+    type: string
+    example: 66d4347c5e230c3b03bff562
+  userId:
+    description: "Record's user id"
+    type: string
+    example: 66d061dc16f361d7057ce7ca
+  date:
+    description: 'Date and time of adding the record'
+    type: string
+    format: date-time
+    example: '2024-09-01T09:31:40.823Z'
+  amount:
+    description: 'Amount of water consumed by user added to the record'
+    type: number
+    example: 250
+  createdAt:
+    description: 'Date and time of adding the record'
+    type: string
+    format: date-time
+    example: '2024-09-01T09:31:40.825Z'
+  updatedAt:
+    description: 'Date and time of updating the record'
+    type: string
+    format: date-time
+    example: '2024-09-01T09:31:40.825Z'

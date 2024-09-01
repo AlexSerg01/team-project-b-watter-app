@@ -1,0 +1,33 @@
+tags:
+  - water
+summary: Get water consumption by month
+operationId: getWaterConsumptionByMonth
+description: Retrieve the water consumption records for each day of a selected month for the authenticated user.
+security:
+  - bearerAuth: []
+parameters:
+  - name: month
+    in: path
+    required: true
+    schema:
+      type: number
+      example: 8
+    description: The month to retrieve records for.
+  - name: year
+    in: path
+    required: true
+    schema:
+      type: number
+      example: 2024
+    description: The year to retrieve records for.
+responses:
+  '200':
+    description: 'Month period records of water consumption per day for userId: 66d061dc16f361d7057ce7ca'
+    content:
+      application/json:
+        schema:
+          $ref: '../../../../components/schemas/waterGetByMonthResponse.yaml'
+  '401':
+    $ref: '../../../../components/responses/401.yaml'
+  '404':
+    $ref: ..\..\..\..\components\responses\404.yaml

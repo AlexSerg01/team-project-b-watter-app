@@ -1,0 +1,28 @@
+tags:
+  - water
+summary: Add a new water consumption record
+operationId: addWaterConsumption
+description: Add a new record of water consumption for the authenticated user.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - amount
+        properties:
+          amount:
+            type: string
+            example: '250'
+responses:
+  '201':
+    description: New water consumption record has been added successfully!
+    content:
+      application/json:
+        schema:
+          $ref: ..\..\components\schemas\waterPostAndPatchResponse.yaml
+  '401':
+    $ref: '../../components/responses/401.yaml'

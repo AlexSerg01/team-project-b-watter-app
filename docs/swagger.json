@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "http://localhost:14000"
     },
     {
       "url": "https://example.com/api/v1"
@@ -467,6 +467,210 @@
           }
         }
       }
+    },
+    "/water": {
+      "post": {
+        "tags": [
+          "water"
+        ],
+        "summary": "Add a new water consumption record",
+        "operationId": "addWaterConsumption",
+        "description": "Add a new record of water consumption for the authenticated user.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "amount"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": "string",
+                    "example": "250"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "New water consumption record has been added successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/waterPostAndPatchResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/water/{id}": {
+      "patch": {
+        "tags": [
+          "water"
+        ],
+        "summary": "Update an existing water consumption record",
+        "operationId": "updateWaterConsumption",
+        "description": "Update the amount of water consumed in a specific record.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "66bb2c46d348911e38a4e9d5",
+              "description": "The ID of the water consumption record to update."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "amount"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": "string",
+                    "example": "250"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Water consumption record has been updated successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/waterPostAndPatchResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "water"
+        ],
+        "summary": "Delete a water consumption record",
+        "operationId": "deleteWaterConsumption",
+        "description": "Remove a water consumption record by ID.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "66bb2c46d348911e38a4e9d5",
+              "description": "The ID of the water consumption record to delete."
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Water consumption record deleted successfully. No content returned."
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/water/{month}/{year}": {
+      "get": {
+        "tags": [
+          "water"
+        ],
+        "summary": "Get water consumption by month",
+        "operationId": "getWaterConsumptionByMonth",
+        "description": "Retrieve the water consumption records for each day of a selected month for the authenticated user.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "month",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 8
+            },
+            "description": "The month to retrieve records for."
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 2024
+            },
+            "description": "The year to retrieve records for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Month period records of water consumption per day for userId: 66d061dc16f361d7057ce7ca",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/waterGetByMonthResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -594,6 +798,86 @@
             "description": "User's water norm",
             "type": "number",
             "example": 14000
+          }
+        }
+      },
+      "waterPostAndPatchResponse": {
+        "type": "object",
+        "required": [
+          "_id",
+          "userId",
+          "date",
+          "amount",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "_id": {
+            "description": "Record's id\"",
+            "type": "string",
+            "example": "66d4347c5e230c3b03bff562"
+          },
+          "userId": {
+            "description": "Record's user id",
+            "type": "string",
+            "example": "66d061dc16f361d7057ce7ca"
+          },
+          "date": {
+            "description": "Date and time of adding the record",
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-09-01T09:31:40.823Z"
+          },
+          "amount": {
+            "description": "Amount of water consumed by user added to the record",
+            "type": "number",
+            "example": 250
+          },
+          "createdAt": {
+            "description": "Date and time of adding the record",
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-09-01T09:31:40.825Z"
+          },
+          "updatedAt": {
+            "description": "Date and time of updating the record",
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-09-01T09:31:40.825Z"
+          }
+        }
+      },
+      "waterGetByMonthResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "date",
+            "dailyNorm",
+            "percentageConsumed",
+            "entries"
+          ],
+          "properties": {
+            "date": {
+              "type": "string",
+              "example": "01, September",
+              "description": "The date in `dd, MonthName` format."
+            },
+            "dailyNorm": {
+              "type": "string",
+              "example": "2,0 l",
+              "description": "The daily water intake norm in liters."
+            },
+            "percentageConsumed": {
+              "type": "string",
+              "example": "64%",
+              "description": "The percentage of the daily norm consumed."
+            },
+            "entries": {
+              "type": "number",
+              "example": 6,
+              "description": "The number of water consumption entries."
+            }
           }
         }
       }
