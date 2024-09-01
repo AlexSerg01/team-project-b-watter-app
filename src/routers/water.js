@@ -11,7 +11,7 @@ import {
   getWaterConsumptionByMonth,
   addWaterConsumption,
   updateWaterConsumption,
-  getDailyWaterConsumptionController,
+  getDailyWaterConsumption,
   deleteWaterConsumption,
 } from '../controllers/water.js';
 
@@ -33,7 +33,7 @@ router.patch(
 
 router.delete('/:id', ctrlWrapper(deleteWaterConsumption));
 
-router.get('/', ctrlWrapper(getDailyWaterConsumptionController));
+router.get('/', ctrlWrapper(getDailyWaterConsumption));
 
 router.get('/:month/:year', ctrlWrapper(getWaterConsumptionByMonth));
 

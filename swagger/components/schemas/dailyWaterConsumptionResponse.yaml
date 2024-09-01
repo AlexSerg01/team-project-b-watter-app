@@ -1,0 +1,19 @@
+type: object
+required:
+  - status
+  - message
+  - data
+properties:
+  status:
+    type: integer
+    example: 200
+  message:
+    type: string
+    example: Successfully retrieved daily water consumption data
+  data:
+    type: object
+    required:
+      - persantageOfNorm
+      - dailyRecords
+      - createdAt
+      - updatedAt

@@ -1,0 +1,18 @@
+tags:
+  - water
+summary: Get water consumption in percent
+operationId: getDailyWaterConsumption
+description: Retrieve the amount of water consumed from the daily norm in percent and a list of all records of water consumption for the current day
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: 'Retrieved daily water consumption data'
+    content:
+      application/json:
+        schema:
+          $ref: '..\..\..\components\schemas\dailyWaterConsumptionResponse.yaml'
+  '401':
+    $ref: '..\..\..\components\responses\401.yaml'
+  '404':
+    $ref: '..\..\..\components\responses\404.yaml'
