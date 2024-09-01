@@ -22,7 +22,12 @@ export function setupServer() {
     //       },
     //     }),
     //   );
-    app.use(cors());
+
+    // Налаштування CORS з конкретним доменом
+app.use(cors({
+  origin: 'http://localhost:5173', // Ваш фронтенд домен
+  credentials: true, // Дозволяє облікові дані
+}));
 
     app.use(express.json());
 
