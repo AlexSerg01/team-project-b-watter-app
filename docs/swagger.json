@@ -515,6 +515,37 @@
             "$ref": "#/components/responses/401"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "water"
+        ],
+        "summary": "Get water consumption in percent",
+        "operationId": "getDailyWaterConsumption",
+        "description": "Retrieve the amount of water consumed from the daily norm in percent and a list of all records of water consumption for the current day",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved daily water consumption data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/dailyWaterConsumptionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
       }
     },
     "/water/{id}": {
@@ -798,6 +829,33 @@
             "description": "User's water norm",
             "type": "number",
             "example": 14000
+          }
+        }
+      },
+      "dailyWaterConsumptionResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "Successfully retrieved daily water consumption data"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "persantageOfNorm",
+              "dailyRecords",
+              "createdAt",
+              "updatedAt"
+            ]
           }
         }
       },
