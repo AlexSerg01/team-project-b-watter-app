@@ -7,7 +7,7 @@ security:
   - bearerAuth: []
 responses:
   '200':
-    description: 'Successfully retrieved daily water consumption data'
+    description: 'Retrieved daily water consumption data'
     content:
       application/json:
         schema:
