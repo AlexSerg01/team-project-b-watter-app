@@ -1,0 +1,19 @@
+type: object
+required:
+  - status
+  - message
+  - data
+properties:
+  status:
+    type: integer
+    example: 200
+  message:
+    type: string
+    example: Successfully found a user!
+  data:
+    type: object
+    required:
+      - persantageOfNorm
+      - dailyRecords
+      - createdAt
+      - updatedAt

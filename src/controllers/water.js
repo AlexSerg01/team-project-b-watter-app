@@ -62,7 +62,7 @@ export const deleteWaterConsumption = async (req, res, next) => {
 
 // -------------------------------------------------------
 
-export const getDailyWaterConsumptionController = async (req, res) => {
+export const getDailyWaterConsumption = async (req, res) => {
   const userId = req.user._id;
 
   const { percentageOfNorm, dailyRecords } =
