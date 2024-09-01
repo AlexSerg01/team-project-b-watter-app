@@ -41,6 +41,8 @@ paths:
   /water:
     post:
       $ref: ../swagger/paths/water/post.yaml
+    get:
+      $ref: ../swagger/paths/water/water-consumption/get.yaml
   /water/{id}:
     patch:
       $ref: ../swagger/paths/water/{id}/patch.yaml
@@ -49,9 +51,6 @@ paths:
   /water/{month}/{year}:
     get:
       $ref: ../swagger/paths/water/{month}/{year}/get.yaml
-  /water/water-consumption:
-    get:
-      $ref: ../swagger/paths/water/water-consumption/get.yaml
 components:
   securitySchemes:
     bearerAuth:
