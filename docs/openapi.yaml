@@ -15,7 +15,7 @@ tags:
     description: Endpoints related to information about water consumption
 servers:
   - url: http://localhost:14000
-  - url: https://example.com/api/v1
+  - url: https://team-project-b-watter-app.onrender.com
 paths:
   /auth/register:
     post:
