@@ -12,6 +12,7 @@ export const registerUser = async (data) => {
 
     const encryptedPassword = await bcrypt.hash(data.password, 10);
     return await usersCollection.create({...data, password: encryptedPassword});
+
 };
 
 export const loginUser = async (data) => {
