@@ -1,6 +1,5 @@
-
 import { FIFTEEN_MINUTES } from "../constants/authConstants.js";
-import { registerUser, loginUser, logoutUser } from "../services/auth.js";
+import { registerUser, loginUser, logoutUser, requestResetToken } from "../services/auth.js";
 
 function setupSession (res, session) {
     res.cookie('sessionId', session._id, {
@@ -38,4 +37,13 @@ export const logoutController = async (req, res) => {
     res.clearCookie('sessionId');
     res.status(204).send();
 
+};
+
+export const requestResetEmailController = async (req, res) => {
+  await requestResetToken(req.body.email);
+  res.json({
+    message: 'Reset password email was successfully sent!',
+    status: 200,
+    data: {},
+  });
 };
