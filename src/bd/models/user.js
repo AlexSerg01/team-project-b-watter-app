@@ -4,10 +4,18 @@ const usersSchema = new Schema({
     name: {
         type: String,
         required: false,
+        default: ''
     },
     dailyWaterIntake: {
         type: Number,
         required: false,
+        default: 2000
+    },
+    gender: {
+        type: String,
+        enum: ['male', 'female', ''],
+        default: '',
+        required: false
     },
     email: {
         type: String,
@@ -22,6 +30,7 @@ const usersSchema = new Schema({
     photo: {
         type: String,
         required: false,
+        default: ''
     }
 },
 {
