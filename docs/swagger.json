@@ -11,10 +11,10 @@
   },
   "servers": [
     {
-      "url": "http://localhost:14000"
+      "url": "https://team-project-b-watter-app.onrender.com"
     },
     {
-      "url": "https://example.com/api/v1"
+      "url": "http://localhost:14000"
     }
   ],
   "tags": [
@@ -718,9 +718,29 @@
           "email",
           "_id",
           "createdAt",
-          "updatedAt"
+          "updatedAt",
+          "photo",
+          "name",
+          "gender",
+          "dailyWaterIntake"
         ],
         "properties": {
+          "name": {
+            "description": "User's name. Empty by default. Change it by patch method",
+            "type": "string"
+          },
+          "photo": {
+            "description": "User's avatar. Empty by default. Change it by patch method",
+            "type": "string"
+          },
+          "gender": {
+            "description": "User's gender. Empty by default. Change it by patch method",
+            "type": "string"
+          },
+          "dailyWaterIntake": {
+            "description": "User's daily norm of water. 2000 ml by default. Change it by patch method",
+            "type": "number"
+          },
           "email": {
             "description": "User's email",
             "type": "string",
@@ -764,7 +784,11 @@
           "email",
           "_id",
           "createdAt",
-          "updatedAt"
+          "updatedAt",
+          "name",
+          "gender",
+          "dailyWaterIntake",
+          "photo"
         ],
         "properties": {
           "email": {
@@ -786,6 +810,11 @@
             "description": "Norm of water per day",
             "type": "number",
             "example": 14000
+          },
+          "gender": {
+            "description": "User's gender. Empty by default. Change it by patch method",
+            "type": "string",
+            "example": "female"
           },
           "name": {
             "description": "User's name",
