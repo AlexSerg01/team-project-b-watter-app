@@ -4,6 +4,10 @@ required:
   - _id
   - createdAt
   - updatedAt
+  - name
+  - gender
+  - dailyWaterIntake
+  - photo
 properties:
   email:
     description: "User's email"
@@ -21,6 +25,10 @@ properties:
     description: "Norm of water per day"
     type: number
     example: 14000
+  gender:
+    description: "User's gender. Empty by default. Change it by patch method"
+    type: string
+    example: female
   name:
     description: "User's name"
     type: string
