@@ -7,7 +7,7 @@ export const getUserInfoController = async (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'Successfully found a user!',
-        data: user
+        data: user[0]
     })
 };
 
@@ -31,11 +31,10 @@ export const addUserPhotoController = async (req, res) => {
 export const patchUserController = async (req, res) => {
     const contactId = req.user._id;
     const updatedUser = await patchUser(contactId, req.body);
-
     res.status(200).json({
         status: 200,
         message: 'User has been updated successfully',
-        data: updatedUser,
+        data: updatedUser.value,
     });
 };
 

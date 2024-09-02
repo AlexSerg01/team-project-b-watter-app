@@ -9,8 +9,7 @@ export const getUser = async (id) => {
 export const addUserPhoto = async (id, url, options = {}) => {
     const updatedUser = await usersCollection.findByIdAndUpdate({_id: id}, {photo: url}, {new: true,
         includeResultMetadata: true, ...options});
-
-    return updatedUser.photo;
+    return updatedUser.value.photo;
 };
 
 export const patchUser = async (id, data, options = {}) => {
