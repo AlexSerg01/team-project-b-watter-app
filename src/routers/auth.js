@@ -13,7 +13,7 @@ import {
   loginController,
   logoutController,
   requestResetEmailController,
-  resetPassword,
+  resetPasswordController,
 } from '../controllers/auth.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
@@ -33,9 +33,8 @@ router.post(
 );
 router.post(
   '/reset-password',
-  authenticate,
   validateBody(resetPasswordSchema),
-  ctrlWrapper(resetPassword),
+  ctrlWrapper(resetPasswordController),
 );
 
 export default router;
