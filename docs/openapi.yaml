@@ -26,6 +26,12 @@ paths:
   /auth/logout:
     post:
       $ref: ../swagger/paths/auth/logout/post.yaml
+  /auth/request-reset-password:
+    post:
+      $ref: ..\swagger\paths\auth/requestReset/post.yaml
+  /auth/reset-password:
+    post:
+      $ref: ../swagger/paths/auth/resetPWD/post.yaml
   /user/info:
     get:
       $ref: ../swagger/paths/user/info/get.yaml

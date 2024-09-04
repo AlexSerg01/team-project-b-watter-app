@@ -1,0 +1,43 @@
+
+tags:
+  - auth
+summary: Request reset password
+operationId: requestResetPassword
+description: 'Reset password request'
+security:
+  - {}
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+        properties:
+          email:
+            description: "User's email"
+            type: string
+            example: 'waterAppUser@mail.com'
+responses:
+  '201':
+    description: Reset password email was successfully sent!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Reset password email was successfully sent!
+            data:
+              type: object
+  '404':
+    $ref: ..\..\..\components\responses\404.yaml
+

@@ -205,6 +205,170 @@
         }
       }
     },
+    "/auth/request-reset-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Request reset password",
+        "operationId": "requestResetPassword",
+        "description": "Reset password request",
+        "security": [
+          {}
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "description": "User's email",
+                    "type": "string",
+                    "example": "waterAppUser@mail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Reset password email was successfully sent!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Reset password email was successfully sent!"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Reset a password",
+        "operationId": "resetPassword",
+        "description": "Reset the password",
+        "security": [
+          {}
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "token",
+                  "password"
+                ],
+                "properties": {
+                  "password": {
+                    "description": "User's new password",
+                    "type": "string",
+                    "example": "newPassword"
+                  },
+                  "token": {
+                    "description": "Token from email to reset the password",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NjkzNTczNiwiZXhwIjoxNjg2OTM5MzM2fQ.WxL6mWQlDrqX5L4s57UyYkqPLJOhLgGD0rf1RqaUVds"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password was successfully reset!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password successfully changed!"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token not valid"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
     "/user/info": {
       "get": {
         "tags": [
@@ -777,19 +941,6 @@
           }
         }
       },
-      "loggedInObjResponse": {
-        "type": "object",
-        "required": [
-          "accessToken"
-        ],
-        "properties": {
-          "accessToken": {
-            "description": "Access token",
-            "type": "string",
-            "example": "65e4decdd286b30065d54af965e4decdd286b30065d54af965e4decdd286b30065d54af9"
-          }
-        }
-      },
       "userGetAndPatchResponse": {
         "type": "object",
         "required": [
@@ -844,6 +995,23 @@
             "type": "string",
             "format": "date-time",
             "example": "2024-08-10T11:33:42.181Z"
+          }
+        }
+      },
+      "loggedInObjResponse": {
+        "type": "object",
+        "required": [
+          "accessToken",
+          "user"
+        ],
+        "properties": {
+          "accessToken": {
+            "description": "Access token",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af965e4decdd286b30065d54af965e4decdd286b30065d54af9"
+          },
+          "user": {
+            "$ref": "#/components/schemas/userGetAndPatchResponse"
           }
         }
       },
