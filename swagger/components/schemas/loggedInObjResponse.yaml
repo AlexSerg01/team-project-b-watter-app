@@ -1,8 +1,11 @@
 type: object
 required:
   - accessToken
+  - user
 properties:
   accessToken:
     description: "Access token"
     type: string
     example: 65e4decdd286b30065d54af965e4decdd286b30065d54af965e4decdd286b30065d54af9
+  user:
+    $ref: userGetAndPatchResponse.yaml
