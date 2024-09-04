@@ -24,6 +24,11 @@ requestBody:
             description: "Users's email"
             type: string
             example: test@mail.com
+          gender:
+            description: "Users's gender"
+            type: string
+            enum: ["male", "female"]
+            example: female
 responses:
   '200':
     description: User has been updated successfully
@@ -47,3 +52,5 @@ responses:
               $ref: ..\..\..\components\schemas\userGetAndPatchResponse.yaml
   '401':
     $ref: '../../../components/responses/401.yaml'
+  '400':
+    $ref: ..\..\..\components\responses\400.yaml

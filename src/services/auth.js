@@ -29,11 +29,15 @@ export const loginUser = async (data) => {
 
   await sessionCollection.deleteOne({ userId: user._id });
   const accessToken = randomBytes(30).toString('base64');
-  return await sessionCollection.create({
+  const session =  await sessionCollection.create({
     userId: user._id,
     accessToken,
     accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
   });
+  return {
+    user,
+    session
+  }
 };
 
 export const logoutUser = (sessionId) =>

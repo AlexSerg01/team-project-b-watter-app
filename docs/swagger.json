@@ -85,7 +85,7 @@
                   "properties": {
                     "status": {
                       "type": "integer",
-                      "example": 200
+                      "example": 201
                     },
                     "message": {
                       "type": "string",
@@ -361,6 +361,15 @@
                     "description": "Users's email",
                     "type": "string",
                     "example": "test@mail.com"
+                  },
+                  "gender": {
+                    "description": "Users's gender",
+                    "type": "string",
+                    "enum": [
+                      "male",
+                      "female"
+                    ],
+                    "example": "female"
                   }
                 }
               }
@@ -396,6 +405,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -970,6 +982,34 @@
       }
     },
     "responses": {
+      "400": {
+        "description": "New password cannot be the same as the old password",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "New password cannot be the same as the old password"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
       "401": {
         "description": "Unauthorized error",
         "content": {
