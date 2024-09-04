@@ -39,7 +39,7 @@ responses:
           properties:
             status:
               type: integer
-              example: 200
+              example: 201
             message:
               type: string
               example: Successfully registered a user!

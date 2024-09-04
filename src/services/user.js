@@ -1,4 +1,7 @@
-import { usersCollection } from "../bd/models/user.js";
+import bcrypt from 'bcrypt';
+import createHttpError from 'http-errors';
+
+import { usersCollection } from "../bd/models/user.js"
 
 
 export const getUser = async (id) => {
@@ -13,7 +16,15 @@ export const addUserPhoto = async (id, url, options = {}) => {
 };
 
 export const patchUser = async (id, data, options = {}) => {
-    const updatedUser = await usersCollection.findByIdAndUpdate({_id: id}, data, {
+    const updateData = {...data}
+    if(data.password) {
+        const user = await usersCollection.findById(id)
+        const ifPasswordsEqual = await bcrypt.compare(data.password, user.password);
+        if (ifPasswordsEqual) throw createHttpError(400, 'New password cannot be the same as the old password');
+        const encryptedPassword = await bcrypt.hash(data.password, 10);
+        updateData.password = encryptedPassword
+    }
+    const updatedUser = await usersCollection.findByIdAndUpdate({_id: id}, updateData, {
         new: true,
         includeResultMetadata: true,
         ...options,
