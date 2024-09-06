@@ -1,11 +1,12 @@
-import WaterConsumptionCollection from '../bd/models/water.js';
+import { WaterConsumptionCollection } from '../bd/models/water.js';
 import { getUser } from './user.js';
+import { calculateWaterConsumptionStats } from '../utils/waterUtils.js';
 
 export const addWaterConsumption = async (record) => {
   return WaterConsumptionCollection.create(record);
 };
 
-// -------------------------------------------------------
+//-----------------------------------------------------------------
 
 export const updateWaterConsumption = (id, userId, payload) => {
   return WaterConsumptionCollection.findOneAndUpdate(
@@ -17,7 +18,7 @@ export const updateWaterConsumption = (id, userId, payload) => {
   );
 };
 
-// -------------------------------------------------------
+//-----------------------------------------------------------------
 
 export const deleteWaterConsumption = (id, userId) => {
   return WaterConsumptionCollection.findOneAndDelete({
@@ -26,7 +27,7 @@ export const deleteWaterConsumption = (id, userId) => {
   });
 };
 
-// -------------------------------------------------------
+//-----------------------------------------------------------------
 
 export const getUserDailyWaterConsumption = async (userId) => {
   const user = await getUser(userId);
@@ -51,58 +52,55 @@ export const getUserDailyWaterConsumption = async (userId) => {
   return { percentageOfNorm, dailyRecords };
 };
 
-// -------------------------------------------------------
+//-----------------------------------------------------------------
 
 export const getWaterConsumptionByMonth = async (
   userId,
-  dailyNorm,
   month,
   year,
+  dailyNorm,
 ) => {
   const startDate = new Date(Date.UTC(year, month - 1, 1, 0, 0, 0, 0));
   const endDate = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999));
 
-  const waterData = await WaterConsumptionCollection.find({
+  const records = await WaterConsumptionCollection.find({
     userId,
-    date: { $gte: startDate, $lte: endDate },
-  });
+    date: { $gte: startDate, $lt: endDate },
+  }).sort({ date: 1 });
 
-  const dailyData = {};
-  for (let day = 1; day <= new Date(year, month, 0).getDate(); day++) {
-    const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(
-      day,
-    ).padStart(2, '0')}`;
-    dailyData[dateKey] = { totalAmount: 0, entries: 0 };
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const fullMonthData = [];
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dayRecords = records.filter((record) => {
+      const recordDate = new Date(record.date);
+      return recordDate.getDate() === day;
+    });
+
+    let consumedWaterByDay = 0;
+    let percentageConsumed = 0;
+
+    if (dayRecords.length > 0) {
+      const stats = calculateWaterConsumptionStats(dayRecords, dailyNorm);
+      consumedWaterByDay = stats.consumedWaterByDay;
+      percentageConsumed = stats.percentageConsumed;
+    }
+
+    const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
+    const responseConsumedWaterByDay = (consumedWaterByDay / 1000).toFixed(1);
+
+    fullMonthData.push({
+      date: `${String(day).padStart(2, '0')}, ${new Date(
+        year,
+        month - 1,
+        day,
+      ).toLocaleString('en-US', { month: 'long' })}`,
+      dailyNorm: `${responseDailyNorm} l`,
+      percentageConsumed: `${percentageConsumed}%`,
+      entries: dayRecords.length,
+      consumedWaterByDay: `${responseConsumedWaterByDay} l`,
+    });
   }
 
-  waterData.forEach((record) => {
-    const date = new Date(record.date);
-    const dateKey = `${date.getFullYear()}-${String(
-      date.getMonth() + 1,
-    ).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-
-    if (dailyData[dateKey]) {
-      dailyData[dateKey].totalAmount += record.amount;
-      dailyData[dateKey].entries += 1;
-    }
-  });
-
-  const result = Object.keys(dailyData).map((dateKey) => {
-    const [year, month, day] = dateKey.split('-');
-    const date = new Date(year, month - 1, day);
-    const monthName = date.toLocaleString('en-US', { month: 'long' });
-
-    const totalAmount = dailyData[dateKey].totalAmount;
-    const percentageConsumed =
-      dailyNorm > 0 ? Math.round((totalAmount / dailyNorm) * 100) : 0;
-
-    return {
-      date: `${String(day).padStart(2, '0')}, ${monthName}`,
-      dailyNorm: `${(dailyNorm / 1000).toFixed(1)} l`,
-      percentageConsumed: `${percentageConsumed}%`,
-      entries: dailyData[dateKey].entries,
-    };
-  });
-
-  return result;
+  return fullMonthData;
 };
