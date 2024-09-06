@@ -4,6 +4,9 @@ required:
   - userId
   - date
   - amount
+  - dailyNorm
+  - percentageConsumed
+  - consumedWaterByDay"
   - createdAt
   - updatedAt
 properties:
@@ -21,9 +24,21 @@ properties:
     format: date-time
     example: '2024-09-01T09:31:40.823Z'
   amount:
-    description: 'Amount of water consumed by user added to the record'
+    description: 'Amount of water consumed by user added to the record, in milliliters'
     type: number
     example: 250
+  dailyNorm:
+    description: "User's daily water intake norm, in litres"
+    type: number
+    example: 2.0 l
+  percentageConsumed:
+    description: 'Percentage of the daily water intake norm consumed'
+    type: string
+    example: '50%'
+  consumedWaterByDay:
+    description: 'Total amount of water consumed by the user for the day, in litres'
+    type: string
+    example: 1.0 l
   createdAt:
     description: 'Date and time of adding the record'
     type: string
