@@ -15,6 +15,18 @@ const waterConsumptionSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    dailyNorm: {
+      type: Number,
+      required: true,
+    },
+    percentageConsumed: {
+      type: Number,
+      required: true,
+    },
+    consumedWaterByDay: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -22,4 +34,7 @@ const waterConsumptionSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.model('WaterConsumption', waterConsumptionSchema);
+export const WaterConsumptionCollection = mongoose.model(
+  'WaterConsumption',
+  waterConsumptionSchema,
+);
