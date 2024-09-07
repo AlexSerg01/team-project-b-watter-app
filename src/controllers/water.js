@@ -27,6 +27,11 @@ export const addWaterConsumption = async (req, res) => {
 
   const newRecord = await WaterService.addWaterConsumption(waterConsumption);
 
+  const formattedDate = `${String(new Date().getDate()).padStart(
+    2,
+    '0',
+  )}, ${new Date().toLocaleString('en-US', { month: 'long' })}`;
+
   const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
   const responseConsumedWaterByDay = (consumedWaterByDay / 1000).toFixed(1);
 
@@ -35,6 +40,7 @@ export const addWaterConsumption = async (req, res) => {
     message: 'New water consumption record has been added successfully!',
     data: {
       ...newRecord.toObject(),
+      date: formattedDate,
       dailyNorm: `${responseDailyNorm} l`,
       percentageConsumed: `${percentageConsumed}%`,
       consumedWaterByDay: `${responseConsumedWaterByDay} l`,
@@ -75,6 +81,11 @@ export const updateWaterConsumption = async (req, res, next) => {
   updatedRecord.consumedWaterByDay = consumedWaterByDay;
   await updatedRecord.save();
 
+  const formattedDate = `${String(new Date().getDate()).padStart(
+    2,
+    '0',
+  )}, ${new Date().toLocaleString('en-US', { month: 'long' })}`;
+
   const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
   const responseConsumedWaterByDay = (consumedWaterByDay / 1000).toFixed(1);
 
@@ -83,6 +94,7 @@ export const updateWaterConsumption = async (req, res, next) => {
     message: 'Water consumption record has been updated successfully!',
     data: {
       ...updatedRecord.toObject(),
+      date: formattedDate,
       dailyNorm: `${responseDailyNorm} l`,
       percentageConsumed: `${percentageConsumed}%`,
       consumedWaterByDay: `${responseConsumedWaterByDay} l`,
@@ -124,7 +136,7 @@ export const getDailyWaterConsumption = async (req, res) => {
 
 //-----------------------------------------------------------------
 
-export const getWaterConsumptionByMonth = async (req, res, next) => {
+export const getWaterConsumptionByMonth = async (req, res) => {
   const { month, year } = req.params;
   const monthInt = parseInt(month);
   const yearInt = parseInt(year);
