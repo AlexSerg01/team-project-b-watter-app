@@ -19,10 +19,9 @@ properties:
     type: string
     example: 66d061dc16f361d7057ce7ca
   date:
-    description: 'Date and time of adding the record'
+    description: 'Date of adding the record `dd, MonthName` format'
     type: string
-    format: date-time
-    example: '2024-09-01T09:31:40.823Z'
+    example: 01, September
   amount:
     description: 'Amount of water consumed by user added to the record, in milliliters'
     type: number
