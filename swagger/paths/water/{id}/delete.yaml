@@ -14,8 +14,12 @@ parameters:
       example: 66bb2c46d348911e38a4e9d5
       description: The ID of the water consumption record to delete.
 responses:
-  '204':
-    description: Water consumption record deleted successfully. No content returned.
+  '200':
+    description: Water consumption record has been deleted successfully!
+    content:
+      application/json:
+        schema:
+          $ref: '../../../components/schemas/waterDeleteResponse.yaml'
   '401':
     $ref: '../../../components/responses/401.yaml'
   '404':
