@@ -1,6 +1,7 @@
 type: object
 required:
   - _id
+  - userId
   - date
   - amount
   - dailyNorm
@@ -19,15 +20,15 @@ properties:
   date:
     description: 'Date of adding the record `dd, MonthName` format'
     type: string
-    example: September 01
+    example: 01, September
   amount:
     description: 'Amount of water consumed by user added to the record, in milliliters'
-    type: string
-    example: 250 ml
+    type: number
+    example: 250
   dailyNorm:
     description: "User's daily water intake norm, in litres"
     type: number
-    example: 2.0 l
+    example: 2.0 L
   percentageConsumed:
     description: 'Percentage of the daily water intake norm consumed'
     type: string
@@ -35,7 +36,7 @@ properties:
   consumedWaterByDay:
     description: 'Total amount of water consumed by the user for the day, in litres'
     type: string
-    example: 1.0 l
+    example: 1.0 L
   entries:
     type: number
     example: 6

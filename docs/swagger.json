@@ -1079,6 +1079,7 @@
         "type": "object",
         "required": [
           "_id",
+          "userId",
           "date",
           "amount",
           "dailyNorm",
@@ -1100,17 +1101,17 @@
           "date": {
             "description": "Date of adding the record `dd, MonthName` format",
             "type": "string",
-            "example": "September 01"
+            "example": "01, September"
           },
           "amount": {
             "description": "Amount of water consumed by user added to the record, in milliliters",
-            "type": "string",
-            "example": "250 ml"
+            "type": "number",
+            "example": 250
           },
           "dailyNorm": {
             "description": "User's daily water intake norm, in litres",
             "type": "number",
-            "example": "2.0 l"
+            "example": "2.0 L"
           },
           "percentageConsumed": {
             "description": "Percentage of the daily water intake norm consumed",
@@ -1120,7 +1121,7 @@
           "consumedWaterByDay": {
             "description": "Total amount of water consumed by the user for the day, in litres",
             "type": "string",
-            "example": "1.0 l"
+            "example": "1.0 L"
           },
           "entries": {
             "type": "number",
@@ -1133,6 +1134,7 @@
         "type": "object",
         "required": [
           "_id",
+          "userId",
           "date",
           "amount",
           "dailyNorm",
@@ -1146,20 +1148,25 @@
             "type": "string",
             "example": "66d4347c5e230c3b03bff562"
           },
+          "userId": {
+            "description": "Record's user id",
+            "type": "string",
+            "example": "66d061dc16f361d7057ce7ca"
+          },
           "date": {
             "description": "Date of deleting the record `dd, MonthName` format",
             "type": "string",
-            "example": "September 01"
+            "example": "01, September"
           },
           "amount": {
             "description": "Amount of water consumed by user of deleted record, in milliliters",
-            "type": "string",
-            "example": "250 ml"
+            "type": "number",
+            "example": 250
           },
           "dailyNorm": {
             "description": "User's daily water intake norm, in litres",
             "type": "number",
-            "example": "2.0 l"
+            "example": "2.0 L"
           },
           "percentageConsumed": {
             "description": "Updated Percentage of the daily water intake norm consumed after deleting the record",
@@ -1169,7 +1176,7 @@
           "consumedWaterByDay": {
             "description": "Updated total amount of water consumed by the user for the day after deleting the record, in litres",
             "type": "string",
-            "example": "1.0 l"
+            "example": "1.0 L"
           }
         }
       },
@@ -1191,7 +1198,7 @@
             },
             "dailyNorm": {
               "type": "string",
-              "example": "2,0 l",
+              "example": "2,0 L",
               "description": "The daily water intake norm in liters."
             },
             "percentageConsumed": {
