@@ -812,8 +812,15 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Water consumption record deleted successfully. No content returned."
+          "200": {
+            "description": "Water consumption record has been deleted successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/waterDeleteResponse"
+                }
+              }
+            }
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -1072,14 +1079,12 @@
         "type": "object",
         "required": [
           "_id",
-          "userId",
           "date",
           "amount",
           "dailyNorm",
           "percentageConsumed",
-          "consumedWaterByDay\"",
-          "createdAt",
-          "updatedAt"
+          "consumedWaterByDay",
+          "entries"
         ],
         "properties": {
           "_id": {
@@ -1095,12 +1100,12 @@
           "date": {
             "description": "Date of adding the record `dd, MonthName` format",
             "type": "string",
-            "example": "01, September"
+            "example": "September 01"
           },
           "amount": {
             "description": "Amount of water consumed by user added to the record, in milliliters",
-            "type": "number",
-            "example": 250
+            "type": "string",
+            "example": "250 ml"
           },
           "dailyNorm": {
             "description": "User's daily water intake norm, in litres",
@@ -1117,17 +1122,54 @@
             "type": "string",
             "example": "1.0 l"
           },
-          "createdAt": {
-            "description": "Date and time of adding the record",
+          "entries": {
+            "type": "number",
+            "example": 6,
+            "description": "The number of water consumption entries by day."
+          }
+        }
+      },
+      "waterDeleteResponse": {
+        "type": "object",
+        "required": [
+          "_id",
+          "date",
+          "amount",
+          "dailyNorm",
+          "percentageConsumed",
+          "consumedWaterByDay",
+          "entries"
+        ],
+        "properties": {
+          "_id": {
+            "description": "Deleted record's id\"",
             "type": "string",
-            "format": "date-time",
-            "example": "2024-09-01T09:31:40.825Z"
+            "example": "66d4347c5e230c3b03bff562"
           },
-          "updatedAt": {
-            "description": "Date and time of updating the record",
+          "date": {
+            "description": "Date of deleting the record `dd, MonthName` format",
             "type": "string",
-            "format": "date-time",
-            "example": "2024-09-01T09:31:40.825Z"
+            "example": "September 01"
+          },
+          "amount": {
+            "description": "Amount of water consumed by user of deleted record, in milliliters",
+            "type": "string",
+            "example": "250 ml"
+          },
+          "dailyNorm": {
+            "description": "User's daily water intake norm, in litres",
+            "type": "number",
+            "example": "2.0 l"
+          },
+          "percentageConsumed": {
+            "description": "Updated Percentage of the daily water intake norm consumed after deleting the record",
+            "type": "string",
+            "example": "50%"
+          },
+          "consumedWaterByDay": {
+            "description": "Updated total amount of water consumed by the user for the day after deleting the record, in litres",
+            "type": "string",
+            "example": "1.0 l"
           }
         }
       },

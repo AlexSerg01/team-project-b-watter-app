@@ -1,0 +1,34 @@
+type: object
+required:
+  - _id
+  - date
+  - amount
+  - dailyNorm
+  - percentageConsumed
+  - consumedWaterByDay
+  - entries
+properties:
+  _id:
+    description: Deleted record's id"
+    type: string
+    example: 66d4347c5e230c3b03bff562
+  date:
+    description: 'Date of deleting the record `dd, MonthName` format'
+    type: string
+    example: September 01
+  amount:
+    description: 'Amount of water consumed by user of deleted record, in milliliters'
+    type: string
+    example: 250 ml
+  dailyNorm:
+    description: "User's daily water intake norm, in litres"
+    type: number
+    example: 2.0 l
+  percentageConsumed:
+    description: 'Updated Percentage of the daily water intake norm consumed after deleting the record'
+    type: string
+    example: '50%'
+  consumedWaterByDay:
+    description: 'Updated total amount of water consumed by the user for the day after deleting the record, in litres'
+    type: string
+    example: 1.0 l

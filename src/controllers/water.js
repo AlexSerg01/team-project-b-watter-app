@@ -1,6 +1,9 @@
 import createHttpError from 'http-errors';
 import * as WaterService from '../services/water.js';
-import { calculateWaterConsumptionStats } from '../utils/waterUtils.js';
+import {
+  calculateWaterConsumptionStats,
+  formatWaterResponse,
+} from '../utils/waterUtils.js';
 
 export const addWaterConsumption = async (req, res) => {
   const userId = req.user._id;
@@ -26,25 +29,23 @@ export const addWaterConsumption = async (req, res) => {
   };
 
   const newRecord = await WaterService.addWaterConsumption(waterConsumption);
+  const updatedDailyRecords = await WaterService.getUserDailyWaterConsumption(
+    userId,
+  );
+  const entries = updatedDailyRecords.dailyRecords.length;
 
-  const formattedDate = `${String(new Date().getDate()).padStart(
-    2,
-    '0',
-  )}, ${new Date().toLocaleString('en-US', { month: 'long' })}`;
-
-  const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
-  const responseConsumedWaterByDay = (consumedWaterByDay / 1000).toFixed(1);
+  const response = formatWaterResponse(
+    newRecord,
+    dailyNorm,
+    consumedWaterByDay,
+    percentageConsumed,
+    entries,
+  );
 
   res.status(201).json({
     status: 201,
     message: 'New water consumption record has been added successfully!',
-    data: {
-      ...newRecord.toObject(),
-      date: formattedDate,
-      dailyNorm: `${responseDailyNorm} l`,
-      percentageConsumed: `${percentageConsumed}%`,
-      consumedWaterByDay: `${responseConsumedWaterByDay} l`,
-    },
+    data: response,
   });
 };
 
@@ -73,7 +74,6 @@ export const updateWaterConsumption = async (req, res, next) => {
   const { dailyRecords } = await WaterService.getUserDailyWaterConsumption(
     userId,
   );
-
   const { consumedWaterByDay, percentageConsumed } =
     calculateWaterConsumptionStats(dailyRecords, dailyNorm);
 
@@ -81,39 +81,54 @@ export const updateWaterConsumption = async (req, res, next) => {
   updatedRecord.consumedWaterByDay = consumedWaterByDay;
   await updatedRecord.save();
 
-  const formattedDate = `${String(new Date().getDate()).padStart(
-    2,
-    '0',
-  )}, ${new Date().toLocaleString('en-US', { month: 'long' })}`;
-
-  const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
-  const responseConsumedWaterByDay = (consumedWaterByDay / 1000).toFixed(1);
+  const entries = dailyRecords.length;
+  const response = formatWaterResponse(
+    updatedRecord,
+    dailyNorm,
+    consumedWaterByDay,
+    percentageConsumed,
+    entries,
+  );
 
   res.status(200).json({
     status: 200,
     message: 'Water consumption record has been updated successfully!',
-    data: {
-      ...updatedRecord.toObject(),
-      date: formattedDate,
-      dailyNorm: `${responseDailyNorm} l`,
-      percentageConsumed: `${percentageConsumed}%`,
-      consumedWaterByDay: `${responseConsumedWaterByDay} l`,
-    },
+    data: response,
   });
 };
 
 //-----------------------------------------------------------------
 
 export const deleteWaterConsumption = async (req, res, next) => {
+  const userId = req.user._id;
   const { id } = req.params;
 
-  const result = await WaterService.deleteWaterConsumption(id, req.user._id);
+  const result = await WaterService.deleteWaterConsumption(id, userId);
 
-  if (result === null || result.userId.toString() !== req.user._id.toString()) {
+  if (!result) {
     return next(createHttpError(404, 'Record not found'));
   }
 
-  res.status(204).end();
+  const { deletedRecord, dailyNorm, consumedWaterByDay, percentageConsumed } =
+    result;
+  const { dailyRecords } = await WaterService.getUserDailyWaterConsumption(
+    userId,
+  );
+  const entries = dailyRecords.length;
+
+  const response = formatWaterResponse(
+    deletedRecord,
+    dailyNorm,
+    consumedWaterByDay,
+    percentageConsumed,
+    entries,
+  );
+
+  res.status(200).json({
+    status: 200,
+    message: 'Water consumption record has been deleted successfully!',
+    data: response,
+  });
 };
 
 //-----------------------------------------------------------------
