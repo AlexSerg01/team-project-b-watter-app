@@ -20,11 +20,28 @@ export const updateWaterConsumption = (id, userId, payload) => {
 
 //-----------------------------------------------------------------
 
-export const deleteWaterConsumption = (id, userId) => {
-  return WaterConsumptionCollection.findOneAndDelete({
+export const deleteWaterConsumption = async (id, userId) => {
+  const deletedRecord = await WaterConsumptionCollection.findOneAndDelete({
     _id: id,
     userId,
   });
+
+  if (!deletedRecord) {
+    return null;
+  }
+
+  const { dailyRecords } = await getUserDailyWaterConsumption(userId);
+  const dailyNorm = deletedRecord.dailyNorm || 2000;
+
+  const { consumedWaterByDay, percentageConsumed } =
+    calculateWaterConsumptionStats(dailyRecords, dailyNorm);
+
+  return {
+    deletedRecord,
+    dailyNorm,
+    consumedWaterByDay,
+    percentageConsumed,
+  };
 };
 
 //-----------------------------------------------------------------
