@@ -23,6 +23,10 @@ properties:
     description: 'Date of adding the record `dd, MonthName` format'
     type: string
     example: 01, September
+  time:
+    description: Time of the record creation or updating in `hh:mm` format
+    type: string
+    example: '00:10'
   amount:
     description: 'Amount of water consumed by user added to the record, in milliliters'
     type: number

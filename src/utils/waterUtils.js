@@ -16,10 +16,11 @@ export const calculateWaterConsumptionStats = (dailyRecords, dailyNorm) => {
 export const formatWaterResponse = (
   id,
   userId,
-  amount,
   day,
   month,
   year,
+  time,
+  amount,
   dailyNorm,
   consumedWaterByDay,
   percentageConsumed,
@@ -32,14 +33,19 @@ export const formatWaterResponse = (
     month - 1,
     day,
   ).toLocaleString('en-US', { month: 'long' })}`;
+
+  const [hours, minutes] = time.split(':');
+  const formattedTime = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+
   const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
   const responseConsumedWaterByDay = (consumedWaterByDay / 1000).toFixed(1);
 
   return {
     id,
     userId,
-    amount,
     date: formattedDate,
+    time: formattedTime,
+    amount,
     dailyNorm: `${responseDailyNorm} L`,
     percentageConsumed: `${percentageConsumed}%`,
     consumedWaterByDay: `${responseConsumedWaterByDay} L`,

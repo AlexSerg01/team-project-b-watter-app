@@ -11,6 +11,10 @@ const waterConsumptionSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    time: {
+      type: String,
+      required: true,
+    },
     amount: {
       type: Number,
       required: true,

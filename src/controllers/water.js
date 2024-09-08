@@ -22,6 +22,7 @@ export const addWaterConsumption = async (req, res) => {
   const waterConsumption = {
     userId,
     date: new Date(),
+    time: req.body.time || new Date().toLocaleTimeString(),
     amount: parseInt(req.body.amount),
     dailyNorm,
     percentageConsumed,
@@ -38,10 +39,11 @@ export const addWaterConsumption = async (req, res) => {
   const response = formatWaterResponse(
     newRecord._id,
     userId,
-    newRecord.amount,
     date.getDate(),
     date.getMonth() + 1,
     date.getFullYear(),
+    newRecord.time,
+    newRecord.amount,
     dailyNorm,
     consumedWaterByDay,
     percentageConsumed,
@@ -66,6 +68,7 @@ export const updateWaterConsumption = async (req, res, next) => {
 
   const waterConsumption = {
     date: new Date(),
+    time: req.body.time || new Date().toLocaleTimeString(),
     amount: parseInt(req.body.amount),
   };
 
@@ -87,6 +90,7 @@ export const updateWaterConsumption = async (req, res, next) => {
 
   updatedRecord.percentageConsumed = percentageConsumed;
   updatedRecord.consumedWaterByDay = consumedWaterByDay;
+  updatedRecord.time = req.body.time || new Date().toLocaleTimeString();
   await updatedRecord.save();
 
   const entries = dailyRecords.length;
@@ -94,10 +98,11 @@ export const updateWaterConsumption = async (req, res, next) => {
   const response = formatWaterResponse(
     updatedRecord._id,
     userId,
-    updatedRecord.amount,
     date.getDate(),
     date.getMonth() + 1,
     date.getFullYear(),
+    updatedRecord.time,
+    updatedRecord.amount,
     dailyNorm,
     consumedWaterByDay,
     percentageConsumed,
@@ -136,10 +141,11 @@ export const deleteWaterConsumption = async (req, res, next) => {
   const response = formatWaterResponse(
     deletedRecord._id,
     userId,
-    deletedRecord.amount,
     date.getDate(),
     date.getMonth() + 1,
     date.getFullYear(),
+    new Date().toLocaleTimeString(),
+    deletedRecord.amount,
     dailyNorm,
     consumedWaterByDay,
     percentageConsumed,
