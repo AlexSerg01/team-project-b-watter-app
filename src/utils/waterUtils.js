@@ -24,6 +24,8 @@ export const formatWaterResponse = (
   consumedWaterByDay,
   percentageConsumed,
   entries,
+  createdAt,
+  updatedAt,
 ) => {
   const formattedDate = `${String(day).padStart(2, '0')}, ${new Date(
     year,
@@ -42,5 +44,7 @@ export const formatWaterResponse = (
     percentageConsumed: `${percentageConsumed}%`,
     consumedWaterByDay: `${responseConsumedWaterByDay} L`,
     entries,
+    createdAt,
+    updatedAt,
   };
 };

@@ -46,6 +46,8 @@ export const addWaterConsumption = async (req, res) => {
     consumedWaterByDay,
     percentageConsumed,
     entries,
+    newRecord.createdAt,
+    newRecord.updatedAt,
   );
 
   res.status(201).json({
@@ -100,6 +102,8 @@ export const updateWaterConsumption = async (req, res, next) => {
     consumedWaterByDay,
     percentageConsumed,
     entries,
+    updatedRecord.createdAt,
+    updatedRecord.updatedAt,
   );
 
   res.status(200).json({
@@ -140,6 +144,8 @@ export const deleteWaterConsumption = async (req, res, next) => {
     consumedWaterByDay,
     percentageConsumed,
     entries,
+    deletedRecord.createdAt,
+    deletedRecord.updatedAt,
   );
 
   res.status(200).json({

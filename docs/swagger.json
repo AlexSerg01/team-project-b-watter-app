@@ -1085,7 +1085,9 @@
           "dailyNorm",
           "percentageConsumed",
           "consumedWaterByDay",
-          "entries"
+          "entries",
+          "createdAt",
+          "updatedAt"
         ],
         "properties": {
           "_id": {
@@ -1127,6 +1129,18 @@
             "type": "number",
             "example": 6,
             "description": "The number of water consumption entries by day."
+          },
+          "createdAt": {
+            "description": "Timestamp when the record was created",
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-08-28T14:48:00.000Z"
+          },
+          "updatedAt": {
+            "description": "Timestamp when the record was last updated",
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-08-28T14:55:00.000Z"
           }
         }
       },
@@ -1177,6 +1191,23 @@
             "description": "Updated total amount of water consumed by the user for the day after deleting the record, in litres",
             "type": "string",
             "example": "1.0 L"
+          },
+          "entries": {
+            "type": "number",
+            "example": 6,
+            "description": "The number of water consumption entries by day."
+          },
+          "createdAt": {
+            "description": "Timestamp when the record was created",
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-08-28T14:48:00.000Z"
+          },
+          "updatedAt": {
+            "description": "Timestamp when the record was last updated",
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-08-28T14:55:00.000Z"
           }
         }
       },
