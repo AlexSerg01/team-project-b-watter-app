@@ -25,6 +25,9 @@ requestBody:
           amount:
             type: string
             example: '250'
+          time:
+            type: string
+            example: '00:10'
 responses:
   '200':
     description: Water consumption record has been updated successfully!
