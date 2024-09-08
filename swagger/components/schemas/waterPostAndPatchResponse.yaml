@@ -8,6 +8,8 @@ required:
   - percentageConsumed
   - consumedWaterByDay
   - entries
+  - createdAt
+  - updatedAt
 properties:
   _id:
     description: Record's id"
@@ -41,3 +43,13 @@ properties:
     type: number
     example: 6
     description: The number of water consumption entries by day.
+  createdAt:
+    description: 'Timestamp when the record was created'
+    type: string
+    format: date-time
+    example: '2024-08-28T14:48:00.000Z'
+  updatedAt:
+    description: 'Timestamp when the record was last updated'
+    type: string
+    format: date-time
+    example: '2024-08-28T14:55:00.000Z'
