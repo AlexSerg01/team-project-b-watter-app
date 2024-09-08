@@ -34,8 +34,14 @@ export const addWaterConsumption = async (req, res) => {
   );
   const entries = updatedDailyRecords.dailyRecords.length;
 
+  const date = new Date();
   const response = formatWaterResponse(
-    newRecord,
+    newRecord._id,
+    userId,
+    newRecord.amount,
+    date.getDate(),
+    date.getMonth() + 1,
+    date.getFullYear(),
     dailyNorm,
     consumedWaterByDay,
     percentageConsumed,
@@ -82,8 +88,14 @@ export const updateWaterConsumption = async (req, res, next) => {
   await updatedRecord.save();
 
   const entries = dailyRecords.length;
+  const date = new Date(updatedRecord.date);
   const response = formatWaterResponse(
-    updatedRecord,
+    updatedRecord._id,
+    userId,
+    updatedRecord.amount,
+    date.getDate(),
+    date.getMonth() + 1,
+    date.getFullYear(),
     dailyNorm,
     consumedWaterByDay,
     percentageConsumed,
@@ -116,8 +128,14 @@ export const deleteWaterConsumption = async (req, res, next) => {
   );
   const entries = dailyRecords.length;
 
+  const date = new Date(deletedRecord.date);
   const response = formatWaterResponse(
-    deletedRecord,
+    deletedRecord._id,
+    userId,
+    deletedRecord.amount,
+    date.getDate(),
+    date.getMonth() + 1,
+    date.getFullYear(),
     dailyNorm,
     consumedWaterByDay,
     percentageConsumed,
@@ -130,8 +148,6 @@ export const deleteWaterConsumption = async (req, res, next) => {
     data: response,
   });
 };
-
-//-----------------------------------------------------------------
 
 export const getDailyWaterConsumption = async (req, res) => {
   const userId = req.user._id;

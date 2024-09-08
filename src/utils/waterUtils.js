@@ -14,22 +14,33 @@ export const calculateWaterConsumptionStats = (dailyRecords, dailyNorm) => {
 //-----------------------------------------------------------------
 
 export const formatWaterResponse = (
-  record,
+  id,
+  userId,
+  amount,
+  day,
+  month,
+  year,
   dailyNorm,
   consumedWaterByDay,
   percentageConsumed,
   entries,
 ) => {
+  const formattedDate = `${String(day).padStart(2, '0')}, ${new Date(
+    year,
+    month - 1,
+    day,
+  ).toLocaleString('en-US', { month: 'long' })}`;
+  const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
+  const responseConsumedWaterByDay = (consumedWaterByDay / 1000).toFixed(1);
+
   return {
-    _id: record._id,
-    date: record.date.toLocaleString('en-US', {
-      day: '2-digit',
-      month: 'long',
-    }),
-    amount: `${record.amount} ml`,
-    dailyNorm: `${(dailyNorm / 1000).toFixed(1)} l`,
-    consumedWaterByDay: `${(consumedWaterByDay / 1000).toFixed(1)} l`,
-    percentageConsumed: `${percentageConsumed.toFixed(1)} %`,
+    id,
+    userId,
+    amount,
+    date: formattedDate,
+    dailyNorm: `${responseDailyNorm} L`,
+    percentageConsumed: `${percentageConsumed}%`,
+    consumedWaterByDay: `${responseConsumedWaterByDay} L`,
     entries,
   };
 };

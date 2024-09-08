@@ -112,10 +112,10 @@ export const getWaterConsumptionByMonth = async (
         month - 1,
         day,
       ).toLocaleString('en-US', { month: 'long' })}`,
-      dailyNorm: `${responseDailyNorm} l`,
+      dailyNorm: `${responseDailyNorm} L`,
       percentageConsumed: `${percentageConsumed}%`,
       entries: dayRecords.length,
-      consumedWaterByDay: `${responseConsumedWaterByDay} l`,
+      consumedWaterByDay: `${responseConsumedWaterByDay} L`,
     });
   }
 
