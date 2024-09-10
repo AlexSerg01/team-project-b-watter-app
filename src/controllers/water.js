@@ -22,10 +22,11 @@ export const addWaterConsumption = async (req, res) => {
   const waterConsumption = {
     userId,
     date: new Date(),
+    // percent:( parseInt(req.body.amount) / dailyNorm) * 100,
     time: req.body.time || new Date().toLocaleTimeString(),
     amount: parseInt(req.body.amount),
     dailyNorm,
-    percentageConsumed,
+    percentageConsumed: ( parseInt(req.body.amount) / dailyNorm) * 100,
     consumedWaterByDay,
   };
 
