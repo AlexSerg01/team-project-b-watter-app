@@ -109,7 +109,24 @@ export const getWaterConsumptionByMonth = async (
 
     // const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
     const responseConsumedWaterByDay = (consumedWaterByDay / 1000).toFixed(1);
-    const responseDailyNorm = dayRecords[0]?.dailyNorm ? (dayRecords[0].dailyNorm / 1000).toFixed(1) : 2
+    // const responseDailyNorm = dayRecords[0]?.dailyNorm ? (dayRecords[0].dailyNorm / 1000).toFixed(1) : 2
+
+    let responseDailyNorm
+
+    if(dayRecords.length > 0) {
+      if(dayRecords[0].dailyNorm) {
+        responseDailyNorm = (dayRecords[0].dailyNorm / 1000).toFixed(1)
+      }
+      // responseDailyNorm = dayRecords[0]?.dailyNorm ?? (dayRecords[0].dailyNorm / 1000).toFixed(1)
+    } else {
+      const currentDate = new Date();
+      // const isToday = new Date(year, month - 1, day).toDateString() === currentDate.toDateString();
+      const recordDate = new Date(year, month - 1, day);
+      recordDate.setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0);
+      const isTodayOrFuture = recordDate >= currentDate;
+      responseDailyNorm = isTodayOrFuture ? (dailyNorm / 1000).toFixed(1) : 2;
+    };
 
     fullMonthData.push({
       date: `${String(day).padStart(2, '0')}, ${new Date(
@@ -117,7 +134,7 @@ export const getWaterConsumptionByMonth = async (
         month - 1,
         day,
       ).toLocaleString('en-US', { month: 'long' })}`,
-      dailyNorm: `${responseDailyNorm} L`,
+      dailyNorm: `${responseDailyNorm ? responseDailyNorm : 2} L`,
       // percentageConsumed: `${percentageConsumed}%`,
       percentageConsumed: `${Math.round(genPercent)}%`,
       entries: dayRecords.length,
