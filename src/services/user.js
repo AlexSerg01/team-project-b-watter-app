@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 
 import { usersCollection } from "../bd/models/user.js"
+import { WaterConsumptionCollection } from '../bd/models/water.js';
 
 
 export const getUser = async (id) => {
@@ -38,6 +39,27 @@ export const patchUserDailyWaterIntake = async (id, data, options = {}) => {
         includeResultMetadata: true,
         ...options,
     });
+
+    const today = Date.now()
+
+    const startDate = new Date(today);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date(today);
+    endDate.setHours(23, 59, 59, 999);
+
+    const todayRecords = await WaterConsumptionCollection.find({
+        userId: id,
+        date: { $gte: startDate, $lt: endDate },
+      }).sort({ date: 1 });
+
+      for (const curr of todayRecords) {
+        const newNote = {
+            percentageConsumed: (curr.amount / updatedUser.value.dailyWaterIntake) * 100,
+            dailyNorm: updatedUser.value.dailyWaterIntake
+        };
+        await WaterConsumptionCollection.findByIdAndUpdate(curr._id, newNote);
+    }
 
     return updatedUser.value.dailyWaterIntake
 };

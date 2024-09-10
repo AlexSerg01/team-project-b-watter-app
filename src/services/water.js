@@ -93,14 +93,18 @@ export const getWaterConsumptionByMonth = async (
       const recordDate = new Date(record.date);
       return recordDate.getDate() === day;
     });
+    const genPercent = dayRecords.reduce((acc, curr) => {
+      const percent = Number(curr.percentageConsumed);
+      return acc + (isNaN(percent) ? 0 : percent);
+    }, 0);
 
     let consumedWaterByDay = 0;
-    let percentageConsumed = 0;
+    // let percentageConsumed = 0;
 
     if (dayRecords.length > 0) {
       const stats = calculateWaterConsumptionStats(dayRecords, dailyNorm);
       consumedWaterByDay = stats.consumedWaterByDay;
-      percentageConsumed = stats.percentageConsumed;
+      // percentageConsumed = stats.percentageConsumed;
     }
 
     const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
@@ -113,7 +117,8 @@ export const getWaterConsumptionByMonth = async (
         day,
       ).toLocaleString('en-US', { month: 'long' })}`,
       dailyNorm: `${responseDailyNorm} L`,
-      percentageConsumed: `${percentageConsumed}%`,
+      // percentageConsumed: `${percentageConsumed}%`,
+      percentageConsumed: `${Math.round(genPercent)}%`,
       entries: dayRecords.length,
       consumedWaterByDay: `${responseConsumedWaterByDay} L`,
     });
