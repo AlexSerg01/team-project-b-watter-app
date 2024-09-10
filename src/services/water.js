@@ -107,8 +107,9 @@ export const getWaterConsumptionByMonth = async (
       // percentageConsumed = stats.percentageConsumed;
     }
 
-    const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
+    // const responseDailyNorm = (dailyNorm / 1000).toFixed(1);
     const responseConsumedWaterByDay = (consumedWaterByDay / 1000).toFixed(1);
+    const responseDailyNorm = dayRecords[0]?.dailyNorm ? (dayRecords[0].dailyNorm / 1000).toFixed(1) : 2
 
     fullMonthData.push({
       date: `${String(day).padStart(2, '0')}, ${new Date(
